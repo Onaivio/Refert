@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
       className="bg-white/70 border-b fixed w-full top-0 right-0 left-0 border-gray-200 dark:bg-gray-900/70 backdrop-blur-sm  transition-all ease-out dark:border-gray-700"
       style={navbarStyle}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex justify-between items-center h-24">
           <div className="shrink-0 flex items-center">
             <a
