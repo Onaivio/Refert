@@ -2,13 +2,14 @@ import { useInView } from "react-intersection-observer";
 import siteMetadata from "../utils/siteMetadata";
 import { Post } from "../types/post";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import PostCard from "../components/PostCard";
 import LoaderSpinner from "../components/LoaderSpinner";
 import ErrorPage from "../components/ErrorPage";
 
 export default function Home() {
   const { ref, inView } = useInView();
+  const prevInViewRef = useRef<boolean>(false);
 
   const fetchPosts = async ({ pageParam }: { pageParam: number }) => {
     try {
@@ -54,9 +55,10 @@ export default function Home() {
   });
 
   useEffect(() => {
-    if (inView && hasNextPage) {
+    if (inView && hasNextPage && !prevInViewRef.current) {
       fetchNextPage();
     }
+    prevInViewRef.current = inView; // Update ref with the current value
   }, [inView, hasNextPage, fetchNextPage]);
 
   if (status === "pending") {
@@ -89,9 +91,9 @@ export default function Home() {
 
   return (
     <>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 md:pt-36 pt-28">
+      <div className="container max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 md:pt-36 pt-28">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-3xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+          <h1 className="text-3xl font-semibold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest Posts
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
